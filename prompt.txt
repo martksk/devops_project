@@ -1,0 +1,21 @@
+# Context
+I am building a Node.js/Express backend for a DevOps microservices project. I need to integrate Swagger UI for API documentation. 
+
+# Task
+Please generate the updated code for the `/backend` directory to include `swagger-ui-express` and `swagger-jsdoc`. 
+
+# Requirements to Generate
+
+## 1. `backend/package.json`
+* Add `swagger-ui-express` and `swagger-jsdoc` to the dependencies, along with `express`, `cors`, `dotenv`, and `@supabase/supabase-js`.
+
+## 2. `backend/server.js` (or `backend/app.js`)
+* Configure `swagger-jsdoc` with basic API information (Title: "Voting App API", Version: "1.0.0").
+* Set up `swagger-ui-express` to serve the documentation at the endpoint: `GET /api-docs`.
+* Include the JSDoc `@swagger` comments directly above each of the following Express routes so the documentation is auto-generated:
+    * `GET /api/characters`: Returns the list of characters.
+    * `POST /api/vote`: Accepts `{ "id": "character_uuid" }` and returns success status.
+    * `GET /api/health`: Returns the health check status.
+* Ensure the Express server uses CORS and JSON body parsing.
+
+Please provide the complete, updated code for `server.js` with the Swagger annotations included, and the updated `package.json`.
