@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: CI/CD Pipeline
 
 on:
   push:
@@ -7,6 +7,9 @@ on:
     branches: [ main ]
 
 jobs:
+  # ----------------------------------------------------
+  # 1. TESTING JOBS
+  # ----------------------------------------------------
   test-backend:
     name: Backend Tests
     runs-on: ubuntu-latest
@@ -52,3 +55,47 @@ jobs:
       - name: Run Tests
         run: npm run test
         working-directory: ./frontend
+
+  # ----------------------------------------------------
+  # 2. DEPLOYMENT JOBS (CI/CD)
+  # ----------------------------------------------------
+  deploy-backend:
+    name: Deploy Backend to Render
+    needs: test-backend
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - name: Trigger Render Deploy Hook
+        run: |
+          echo "Triggering Render redeployment..."
+          curl -f -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
+          echo "Redeployment triggered successfully!"
+
+  deploy-frontend:
+    name: Deploy Frontend to Vercel
+    needs: test-frontend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+
+      # A) Deploy Preview (runs on PRs)
+      - name: Deploy Preview to Vercel
+        if: github.event_name == 'pull_request'
+        run: vercel deploy --token=${{ secrets.VERCEL_TOKEN }} --cwd=frontend -y
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      # B) Deploy Production (runs on merges to main)
+      - name: Deploy Production to Vercel
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }} --cwd=frontend -y
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}

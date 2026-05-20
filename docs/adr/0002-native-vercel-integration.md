@@ -1,5 +1,7 @@
 # 0002. Native Vercel Integration with GitHub Status Checks
 
+**Status: Superseded by [ADR-0003](file:///Users/martksk/Documents/GitHub/devops_project/docs/adr/0003-ci-cd-deployment-pipeline.md)**
+
 ## Context
 We need to automate deployments of the **Voting Client** to Vercel while ensuring that failing tests block unstable code from reaching the production environment (`main`).
 
