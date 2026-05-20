@@ -161,7 +161,12 @@ app.post('/api/vote', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Backend server running on http://localhost:${PORT}`);
-  console.log(`API Documentation available at http://localhost:${PORT}/api-docs`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Backend server running on http://localhost:${PORT}`);
+    console.log(`API Documentation available at http://localhost:${PORT}/api-docs`);
+  });
+}
+
+module.exports = app;
+

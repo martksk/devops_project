@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { voteForCharacter } from './actions';
 
 interface Character {
   id: string;
@@ -35,13 +36,11 @@ export default function Home() {
 
   const handleVote = async (id: string) => {
     try {
-      const res = await fetch(`${API_URL}/api/vote`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id }),
-      });
-      if (res.ok) {
+      const res = await voteForCharacter(id);
+      if (res.success) {
         fetchCharacters(); // Refresh data
+      } else {
+        console.error('Vote failed:', res.error);
       }
     } catch (err) {
       console.error('Vote failed:', err);
