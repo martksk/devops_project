@@ -1,14 +1,13 @@
 services:
   - type: web
-    name: character-voting-backend
+    name: character-voting-app
     env: node
     plan: free
-    rootDir: backend
-    buildCommand: npm install
-    startCommand: npm start
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
     envVars:
       - key: PORT
-        value: 4000
+        value: 3000
       - key: SUPABASE_URL
         sync: false
       - key: SUPABASE_ANON_KEY

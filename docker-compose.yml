@@ -1,29 +1,9 @@
 services:
-  backend:
-    build: ./backend
-    ports:
-      - "4000:4000"
-    environment:
-      - SUPABASE_URL=${SUPABASE_URL}
-      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
-      - PORT=4000
-    networks:
-      - voting-network
-
-  frontend:
-    build:
-      context: ./frontend
-      args:
-        - NEXT_PUBLIC_API_URL=http://localhost:4000
+  voting-app:
+    build: .
     ports:
       - "3000:3000"
     environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:4000
-    depends_on:
-      - backend
-    networks:
-      - voting-network
-
-networks:
-  voting-network:
-    driver: bridge
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      - PORT=3000
