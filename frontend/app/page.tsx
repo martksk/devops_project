@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { voteForCharacter } from './actions';
+import { useState, useEffect } from "react";
+import { voteForCharacter } from "./actions";
 
 interface Character {
   id: string;
@@ -15,12 +15,14 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
   const fetchCharacters = async () => {
     try {
-      const res = await fetch(`${API_URL}/api/characters`, { cache: 'no-store' });
-      if (!res.ok) throw new Error('Failed to fetch characters');
+      const res = await fetch(`${API_URL}/api/characters`, {
+        cache: "no-store",
+      });
+      if (!res.ok) throw new Error("Failed to fetch characters");
       const data = await res.json();
       setCharacters(data);
     } catch (err: any) {
@@ -31,7 +33,11 @@ export default function Home() {
   };
 
   useEffect(() => {
-    fetchCharacters();
+    const loadCharacters = async () => {
+      await fetchCharacters();
+    };
+
+    void loadCharacters();
   }, []);
 
   const handleVote = async (id: string) => {
@@ -40,15 +46,25 @@ export default function Home() {
       if (res.success) {
         fetchCharacters(); // Refresh data
       } else {
-        console.error('Vote failed:', res.error);
+        console.error("Vote failed:", res.error);
       }
     } catch (err) {
-      console.error('Vote failed:', err);
+      console.error("Vote failed:", err);
     }
   };
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center bg-[#0b0e14] text-white">Loading...</div>;
-  if (error) return <div className="min-h-screen flex items-center justify-center bg-[#0b0e14] text-red-500">Error: {error}</div>;
+  if (loading)
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#0b0e14] text-white">
+        Loading...
+      </div>
+    );
+  if (error)
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#0b0e14] text-red-500">
+        Error: {error}
+      </div>
+    );
 
   return (
     <main className="min-h-screen bg-[#0b0e14] text-white p-8">
@@ -56,13 +72,20 @@ export default function Home() {
         <h1 className="text-4xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
           Character Voting
         </h1>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {characters.map((char) => (
-            <div key={char.id} className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm transition-hover hover:border-blue-500/50">
+            <div
+              key={char.id}
+              className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm transition-hover hover:border-blue-500/50"
+            >
               <div className="h-48 rounded-xl overflow-hidden mb-4 bg-gray-800">
                 {char.image_url && (
-                  <img src={char.image_url} alt={char.name} className="w-full h-full object-cover" />
+                  <img
+                    src={char.image_url}
+                    alt={char.name}
+                    className="w-full h-full object-cover"
+                  />
                 )}
               </div>
               <h2 className="text-2xl font-bold mb-2">{char.name}</h2>
