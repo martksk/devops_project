@@ -81,13 +81,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Install Vercel CLI
-        run: npm install -g vercel
-
       # A) Deploy Preview (runs on PRs)
       - name: Deploy Preview to Vercel
         if: github.event_name == 'pull_request'
-        run: vercel deploy --token=${{ secrets.VERCEL_TOKEN }} --cwd=frontend -y
+        run: npx vercel deploy --token=${{ secrets.VERCEL_TOKEN }} -y
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
@@ -95,7 +92,7 @@ jobs:
       # B) Deploy Production (runs on merges to main)
       - name: Deploy Production to Vercel
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }} --cwd=frontend -y
+        run: npx vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }} -y
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
