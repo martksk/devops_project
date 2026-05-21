@@ -15,7 +15,9 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+  const API_URL =
+    process.env.NEXT_PUBLIC_API_URL ||
+    "https://devops-project-1rpp.onrender.com";
 
   const fetchCharacters = async () => {
     try {
@@ -44,7 +46,7 @@ export default function Home() {
     try {
       const res = await voteForCharacter(id);
       if (res.success) {
-        fetchCharacters(); // Refresh data
+        fetchCharacters();
       } else {
         console.error("Vote failed:", res.error);
       }
