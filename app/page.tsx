@@ -124,8 +124,25 @@ export default function Home() {
     );
 
   return (
-    <main className="min-h-screen bg-[#0b0e14] bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-[#0b0e14] to-[#0b0e14] text-white p-6 md:p-12 font-sans">
-      <div className="max-w-5xl mx-auto">
+    <main className="min-h-screen bg-[#0b0e14] bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-[#0b0e14] to-[#0b0e14] text-white font-sans pb-12">
+      {/* Top Sticky Navbar */}
+      <header className="border-b border-white/5 bg-[#0b0e14]/50 backdrop-blur-md sticky top-0 z-40 py-4 px-6 md:px-12">
+        <div className="max-w-5xl mx-auto flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2 group cursor-pointer">
+            <span className="text-2xl font-black tracking-tighter italic uppercase text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 group-hover:drop-shadow-[0_0_15px_rgba(168,85,247,0.5)] transition-all duration-300">
+              AuraRank
+            </span>
+            <span className="px-2 py-0.5 text-[10px] font-bold tracking-widest uppercase rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20 group-hover:scale-105 transition-all duration-300">
+              v1.0
+            </span>
+          </Link>
+          <span className="text-[10px] text-gray-500 font-mono hidden sm:inline uppercase tracking-widest">
+            The Interactive Avatar Arena
+          </span>
+        </div>
+      </header>
+
+      <div className="max-w-5xl mx-auto p-6 md:p-12 pt-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-6">
           <div>
             <h1 className="text-4xl md:text-5xl font-black tracking-tighter italic uppercase text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 drop-shadow-[0_0_15px_rgba(96,165,250,0.5)]">
