@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { voteForCharacter } from "./actions";
 
 interface Character {
@@ -67,11 +68,25 @@ export default function Home() {
     );
 
   return (
-    <main className="min-h-screen bg-[#0b0e14] text-white p-8">
+    <main className="min-h-screen bg-[#0b0e14] bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-[#0b0e14] to-[#0b0e14] text-white p-6 md:p-12 font-sans">
       <div className="max-w-5xl mx-auto">
-        <h1 className="text-4xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
-          Character Voting
-        </h1>
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-6">
+          <div>
+            <h1 className="text-4xl md:text-5xl font-black tracking-tighter italic uppercase text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 drop-shadow-[0_0_15px_rgba(96,165,250,0.5)]">
+              Character Voting
+            </h1>
+            <p className="text-blue-300/60 font-medium tracking-widest uppercase text-sm mt-2">
+              Cast your vote for your favorite character
+            </p>
+          </div>
+          <Link 
+            href="/leaderboard"
+            className="px-6 py-2 border border-blue-500/30 bg-blue-500/10 hover:bg-blue-500/20 rounded-full transition-all duration-300 text-blue-400 font-bold flex items-center gap-2 group self-start md:self-auto"
+          >
+            View Leaderboard
+            <span className="group-hover:translate-x-1 transition-transform">→</span>
+          </Link>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {characters.map((char) => (
