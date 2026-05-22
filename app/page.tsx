@@ -79,12 +79,14 @@ export default function Home() {
               Cast your vote for your favorite character
             </p>
           </div>
-          <Link 
+          <Link
             href="/leaderboard"
             className="px-6 py-2 border border-blue-500/30 bg-blue-500/10 hover:bg-blue-500/20 rounded-full transition-all duration-300 text-blue-400 font-bold flex items-center gap-2 group self-start md:self-auto"
           >
             View Leaderboard
-            <span className="group-hover:translate-x-1 transition-transform">→</span>
+            <span className="group-hover:translate-x-1 transition-transform">
+              →
+            </span>
           </Link>
         </div>
 
@@ -107,7 +109,7 @@ export default function Home() {
               <p className="text-blue-400 font-mono mb-6">{char.votes} VOTES</p>
               <button
                 onClick={() => handleVote(char.id)}
-                className="w-full py-3 bg-blue-600 hover:bg-blue-700 rounded-xl font-bold transition-colors"
+                className="w-full py-3 bg-blue-600 hover:bg-blue-700 rounded-xl font-bold transition-colors cursor-pointer"
               >
                 Vote
               </button>
