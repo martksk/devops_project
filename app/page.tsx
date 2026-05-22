@@ -86,6 +86,30 @@ export default function Home() {
     }
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        setFormError("File size must be under 5MB");
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setNewCharacterImage(reader.result as string);
+        setFormError(null);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleClearFile = () => {
+    setNewCharacterImage("");
+    const fileInput = document.getElementById("avatar-file-input") as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = "";
+    }
+  };
+
   if (loading)
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#0b0e14] text-white">
@@ -208,17 +232,46 @@ export default function Home() {
 
               <div className="space-y-2">
                 <label className="block text-xs font-bold uppercase tracking-widest text-blue-300/60">
-                  Custom Image URL (Optional)
+                  Character Image (Optional)
                 </label>
+                
                 <input
-                  type="url"
-                  placeholder="https://example.com/avatar.png"
-                  value={newCharacterImage}
-                  onChange={(e) => setNewCharacterImage(e.target.value)}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 focus:border-purple-500/50 rounded-xl text-white outline-none transition-all placeholder-gray-500"
+                  type="file"
+                  accept="image/*"
+                  id="avatar-file-input"
+                  onChange={handleFileChange}
+                  className="hidden"
                 />
+
+                {!newCharacterImage ? (
+                  <label
+                    htmlFor="avatar-file-input"
+                    className="flex flex-col items-center justify-center border-2 border-dashed border-white/10 hover:border-purple-500/50 rounded-2xl p-6 cursor-pointer bg-white/5 hover:bg-white/10 transition-all text-center group"
+                  >
+                    <span className="text-2xl mb-2 group-hover:scale-110 transition-transform">📁</span>
+                    <span className="text-sm text-gray-300 font-bold">Browse Image File</span>
+                    <span className="text-[10px] text-gray-500 mt-1">PNG, JPG, SVG, GIF (Max 5MB)</span>
+                  </label>
+                ) : (
+                  <div className="flex items-center justify-between bg-white/5 border border-purple-500/20 rounded-2xl p-4 animate-fade-in">
+                    <div className="flex items-center gap-3">
+                      <span className="text-xl">✅</span>
+                      <div className="text-left">
+                        <p className="text-sm font-bold text-purple-400">Custom Image Loaded</p>
+                        <p className="text-[10px] text-gray-500">Ready for submission</p>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleClearFile}
+                      className="px-3 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 text-xs font-bold rounded-lg transition-all cursor-pointer"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                )}
                 <p className="text-[10px] text-gray-500 italic mt-1">
-                  Leave blank to dynamically generate a unique Dicebear avatar from the name!
+                  Or leave blank to dynamically generate a unique Dicebear avatar from the name!
                 </p>
               </div>
 
