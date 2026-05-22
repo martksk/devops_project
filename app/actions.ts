@@ -31,3 +31,32 @@ export async function voteForCharacter(characterId: string) {
     return { success: false, error: err.message };
   }
 }
+
+export async function addCharacter(name: string, imageUrl?: string) {
+  try {
+    if (!name || name.trim() === "") {
+      throw new Error("Character name is required");
+    }
+
+    const finalImageUrl = imageUrl?.trim() 
+      ? imageUrl.trim() 
+      : `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(name.trim())}`;
+
+    const { error } = await supabase
+      .from('characters')
+      .insert({
+        name: name.trim(),
+        image_url: finalImageUrl,
+        votes: 0
+      });
+
+    if (error) throw error;
+
+    revalidatePath("/");
+    return { success: true };
+  } catch (err: any) {
+    console.error("Error adding character:", err);
+    return { success: false, error: err.message };
+  }
+}
+
